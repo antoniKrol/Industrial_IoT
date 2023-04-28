@@ -1,12 +1,22 @@
 ﻿using DeviceSdkAgent.Device;
-using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices;
+using Industrial_IoT.Lib;
+using Agent.Console;
 
-string deviceConnectionString = "HostName=Zajecia-IOT.azure-devices.net;DeviceId=Industrial_IoT;SharedAccessKey=9fVTEZ1Bd+3AaxvU/tvLTL+02KnCJr3YIRPTU2srawk=";
+string serviceConnectionString = "HostName=Zajecia-IOT.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=y3rf6CmkGHtDggko9oHrC5Xtyf3FDjcrHVSypUwn/4w=";
 
-using var deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
+using var serviceClient = ServiceClient.CreateFromConnectionString(serviceConnectionString);
 
-await deviceClient.OpenAsync();
+var manager = new IoTHubManager(serviceClient);
 
-var device = new VirtualDevice(deviceClient);
+int input;
+do
+{
+    System.Console.Clear();
+    FeatureSelector.PrintMenu();
+    input = FeatureSelector.ReadInput();
+    await FeatureSelector.Execute(input, manager);
 
-Console.WriteLine("Connected");
+}while(input != 0);
+
+Console.WriteLine("Done");

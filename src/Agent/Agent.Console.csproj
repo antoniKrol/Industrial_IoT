@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.38.2" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.41.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DeviceSdkAgent.Device\DeviceSdkAgent.Device.csproj" />
+    <ProjectReference Include="..\Industrial_IoT.Lib\Industrial_IoT.Lib.csproj" />
   </ItemGroup>
 
 </Project>

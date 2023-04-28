@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agent.Console", "Agent.Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSdkAgent.Device", "..\DeviceSdkAgent.Device\DeviceSdkAgent.Device.csproj", "{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Industrial_IoT.Lib", "..\Industrial_IoT.Lib\Industrial_IoT.Lib.csproj", "{3AE34F86-505C-4724-AD10-E5764BCE54BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
