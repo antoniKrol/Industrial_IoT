@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices.Client.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +34,20 @@ namespace Agent.Console
                         await manager.SendMessage(messageText, deviceId);
                     }
                     break;
-
+                case 2:
+                    {
+                        System.Console.WriteLine("\n Type your device ID (enter to confirm)");
+                        string deviceId = System.Console.ReadLine() ?? string.Empty;
+                        try
+                        {
+                            var result = await manager.ExecuteDeviceMethod("SendMessages", deviceId);
+                            System.Console.WriteLine($"Method executed with status code: {deviceId}");
+                        }catch(DeviceNotFoundException)
+                        {
+                            System.Console.WriteLine("\nDevice not found");
+                        }
+                    }
+                    break;
                 default:
                     { break; }
 
