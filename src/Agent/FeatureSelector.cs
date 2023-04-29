@@ -13,7 +13,7 @@ namespace Agent.Console
         {
             System.Console.WriteLine(@"
 1 - C2D
-2 - Direct Method 
+2 - Display Connected Devices (0 - to exit)
 3 - Device Twin
 0 - Exit
 ");
@@ -36,16 +36,7 @@ namespace Agent.Console
                     break;
                 case 2:
                     {
-                        System.Console.WriteLine("\n Type your device ID (enter to confirm)");
-                        string deviceId = System.Console.ReadLine() ?? string.Empty;
-                        try
-                        {
-                            var result = await manager.ExecuteDeviceMethod("SendMessages", deviceId);
-                            System.Console.WriteLine($"Method executed with status code: {deviceId}");
-                        }catch(DeviceNotFoundException)
-                        {
-                            System.Console.WriteLine("\nDevice not found");
-                        }
+                       new OpcSimConnector().connectAndDisplay();
                     }
                     break;
                 default:
