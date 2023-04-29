@@ -9,28 +9,60 @@ string opcClientConnetionString = "opc.tcp://localhost:4840/";
 
 using (var client = new OpcClient(opcClientConnetionString))
 {
+    try
+    {
     client.Connect();
 
-    OpcNodeInfo deviceNode = client.BrowseNode("i=85");
-    foreach (var device in deviceNode.Children())
-    {
-        if (device.Name.ToString().StartsWith("Device"))
+        while (true)
         {
-            Console.WriteLine($"\n{device.Name}");
+            Console.Clear();
+            OpcNodeInfo deviceNode = client.BrowseNode("i=85");
+            foreach (var device in deviceNode.Children())
+            {
+                if (device.Name.ToString().StartsWith("Device"))
+                {
+                    Console.WriteLine($"\n{device.Name}");
 
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus",OpcAttribute.DisplayName)));
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus")));
+                    var productionStatus = new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus");
+                    var productionRate = new OpcReadNode($"ns=2;s={device.Name}/ProductionRate");
+                    var workOrderId = new OpcReadNode($"ns=2;s={device.Name}/WorkorderId");
+                    var temperature = new OpcReadNode($"ns=2;s={device.Name}/Temperature");
+                    var goodCount = new OpcReadNode($"ns=2;s={device.Name}/GoodCount");
+                    var badCount = new OpcReadNode($"ns=2;s={device.Name}/BadCount");
+                    var deviceError = new OpcReadNode($"ns=2;s={device.Name}/DeviceError");
 
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate", OpcAttribute.DisplayName)));
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate")));
 
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/WorkorderId", OpcAttribute.DisplayName)));
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/WorkorderId")));
+                    Console.WriteLine(client.ReadNode(productionStatus.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(productionStatus));
 
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/Temperature", OpcAttribute.DisplayName)));
-            Console.WriteLine(client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/Temperature")));
+                    Console.WriteLine(client.ReadNode(productionRate.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(productionRate));
+
+                    Console.WriteLine(client.ReadNode(workOrderId.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(workOrderId));
+
+                    Console.WriteLine(client.ReadNode(temperature.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(temperature));
+
+                    Console.WriteLine(client.ReadNode(goodCount.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(goodCount));
+
+                    Console.WriteLine(client.ReadNode(badCount.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(badCount));
+
+                    Console.WriteLine(client.ReadNode(deviceError.NodeId, OpcAttribute.DisplayName));
+                    Console.WriteLine(client.ReadNode(deviceError));
+                }
+            }
+                Thread.Sleep(1000);
         }
     }
+    catch(OpcException ex)
+    {
+        Console.WriteLine(ex);
+    }
+
+   
 }
 
 Console.ReadLine();
