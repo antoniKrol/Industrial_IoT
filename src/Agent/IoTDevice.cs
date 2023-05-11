@@ -18,16 +18,19 @@ namespace Agent.Console
         {      
             deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
         }
+
         public async Task SendDeviceToCloudMessagesAsync(string jsonMessage)
         {
 
 
-            var message = new Message(Encoding.ASCII.GetBytes(jsonMessage));
+            var message = new Message(Encoding.UTF8.GetBytes(jsonMessage))
+            {
+                ContentType = "application/json",
+                ContentEncoding = "utf-8"
+            };
 
             await deviceClient.SendEventAsync(message);
-            System.Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, jsonMessage);
-
-            await Task.Delay(1);
+            System.Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, message);
         }
     }
 }
