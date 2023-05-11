@@ -13,8 +13,10 @@ namespace Agent.Console
     {
         private readonly string opcClientConnetionString = "opc.tcp://localhost:4840/";
 
-        public void connectAndDisplay()
+        public async void connectAndDisplay()
         {
+            IoTDevice IoTDevice = new IoTDevice();
+
             using (var client = new OpcClient(opcClientConnetionString))
             {
                 try
@@ -40,26 +42,26 @@ namespace Agent.Console
                                 var deviceError = new OpcReadNode($"ns=2;s={device.Name}/DeviceError");
 
 
-                                System.Console.WriteLine(client.ReadNode(productionStatus.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(productionStatus));
+                                //System.Console.WriteLine(client.ReadNode(productionStatus.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(productionStatus));
 
-                                System.Console.WriteLine(client.ReadNode(productionRate.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(productionRate));
+                                //System.Console.WriteLine(client.ReadNode(productionRate.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(productionRate));
 
-                                System.Console.WriteLine(client.ReadNode(workOrderId.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(workOrderId));
+                                //System.Console.WriteLine(client.ReadNode(workOrderId.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(workOrderId));
 
-                                System.Console.WriteLine(client.ReadNode(temperature.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(temperature));
+                                //System.Console.WriteLine(client.ReadNode(temperature.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(temperature));
 
-                                System.Console.WriteLine(client.ReadNode(goodCount.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(goodCount));
+                                //System.Console.WriteLine(client.ReadNode(goodCount.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(goodCount));
 
-                                System.Console.WriteLine(client.ReadNode(badCount.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(badCount));
+                                //System.Console.WriteLine(client.ReadNode(badCount.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(badCount));
 
-                                System.Console.WriteLine(client.ReadNode(deviceError.NodeId, OpcAttribute.DisplayName));
-                                System.Console.WriteLine(client.ReadNode(deviceError));
+                                //System.Console.WriteLine(client.ReadNode(deviceError.NodeId, OpcAttribute.DisplayName));
+                                //System.Console.WriteLine(client.ReadNode(deviceError));
                             }
                         }
                         if(System.Console.KeyAvailable)
