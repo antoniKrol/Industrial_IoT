@@ -36,20 +36,20 @@ namespace Agent.Console
 
                                 var deviceData = new DeviceData
                                 {
-                                    DeviceName = device.Name.ToString(),
-                                    ProductionStatus = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus")).ToString(),
+                                    DeviceId = device.Name.ToString(),
+                                    ProductionStatus = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus")).As<int>(),
                                     WorkOrderId = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/WorkorderId")).ToString(),
-                                    Temperature = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/Temperature")).ToString(),
-                                    GoodCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/GoodCount")).ToString(),
-                                    BadCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/BadCount")).ToString(),
+                                    Temperature = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/Temperature")).As<double>(),
+                                    GoodCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/GoodCount")).As<int>(),
+                                    BadCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/BadCount")).As<int>(),
                                 };
 
                                 string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
                                 await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
-                                if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceName,"DeviceError", client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>()))
+                                if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError", client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>()))
                                 {
-                                    System.Console.WriteLine($"{deviceData.DeviceName} has changed");
+                                    System.Console.WriteLine($"{deviceData.DeviceId} has changed");
                                 }
                             } 
                         }
