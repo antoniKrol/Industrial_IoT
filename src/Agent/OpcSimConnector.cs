@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Agent.Console
 {
@@ -33,35 +34,20 @@ namespace Agent.Console
                             {
                                 System.Console.WriteLine($"\n{device.Name}");
 
-                                var productionStatus = new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus");
-                                var productionRate = new OpcReadNode($"ns=2;s={device.Name}/ProductionRate");
-                                var workOrderId = new OpcReadNode($"ns=2;s={device.Name}/WorkorderId");
-                                var temperature = new OpcReadNode($"ns=2;s={device.Name}/Temperature");
-                                var goodCount = new OpcReadNode($"ns=2;s={device.Name}/GoodCount");
-                                var badCount = new OpcReadNode($"ns=2;s={device.Name}/BadCount");
-                                var deviceError = new OpcReadNode($"ns=2;s={device.Name}/DeviceError");
+                                var deviceData = new DeviceData
+                                {
+                                    DeviceName = device.Name.ToString(),
+                                    ProductionStatus = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionStatus")).ToString(),
+                                    WorkOrderId = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/WorkorderId")).ToString(),
+                                    Temperature = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/Temperature")).ToString(),
+                                    GoodCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/GoodCount")).ToString(),
+                                    BadCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/BadCount")).ToString(),
+                                };
 
+                                string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
-                                //System.Console.WriteLine(client.ReadNode(productionStatus.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(productionStatus));
+                                await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
 
-                                //System.Console.WriteLine(client.ReadNode(productionRate.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(productionRate));
-
-                                //System.Console.WriteLine(client.ReadNode(workOrderId.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(workOrderId));
-
-                                //System.Console.WriteLine(client.ReadNode(temperature.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(temperature));
-
-                                //System.Console.WriteLine(client.ReadNode(goodCount.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(goodCount));
-
-                                //System.Console.WriteLine(client.ReadNode(badCount.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(badCount));
-
-                                //System.Console.WriteLine(client.ReadNode(deviceError.NodeId, OpcAttribute.DisplayName));
-                                //System.Console.WriteLine(client.ReadNode(deviceError));
                             }
                         }
                         if(System.Console.KeyAvailable)

@@ -12,26 +12,20 @@ namespace Agent.Console
     {
        
         string deviceConnectionString = "HostName=Zajecia-IOT.azure-devices.net;DeviceId=Industrial_IoT;SharedAccessKey=9fVTEZ1Bd+3AaxvU/tvLTL+02KnCJr3YIRPTU2srawk=";
+        private readonly DeviceClient deviceClient;
 
-        public async Task SendDeviceToCloudMessagesAsync()
+        public IoTDevice()
+        {      
+            deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
+        }
+        public async Task SendDeviceToCloudMessagesAsync(string jsonMessage)
         {
 
-            DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
 
-            var deviceData = new
-            {
-                // Add your device data here. For example:
-                deviceId = "myFirstDevice",
-                windSpeed = 10.0,
-                temperature = 20.0
-                // Add other fields as necessary.
-            };
-
-            var messageString = JsonConvert.SerializeObject(deviceData);
-            var message = new Message(Encoding.ASCII.GetBytes(messageString));
+            var message = new Message(Encoding.ASCII.GetBytes(jsonMessage));
 
             await deviceClient.SendEventAsync(message);
-            System.Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, messageString);
+            System.Console.WriteLine("{0} > Sending message: {1}", DateTime.Now, jsonMessage);
 
             await Task.Delay(1);
         }
