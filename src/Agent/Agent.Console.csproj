@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DeviceSdkAgent.Device\DeviceSdkAgent.Device.csproj" />
     <ProjectReference Include="..\Industrial_IoT.Lib\Industrial_IoT.Lib.csproj" />
+    <ProjectReference Include="..\IoTAzure.Func\IoTAzure.Func.csproj" />
   </ItemGroup>
 
 </Project>

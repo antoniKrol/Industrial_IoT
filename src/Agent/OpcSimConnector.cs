@@ -46,10 +46,20 @@ namespace Agent.Console
 
                                 string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
+                                int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
+
                                 await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
-                                if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError", client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>()))
+                                if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError",deviceError))
                                 {
-                                    System.Console.WriteLine($"{deviceData.DeviceId} has changed");
+
+                                    var messageObject = new
+                                    {
+                                        DeviceId = deviceData.DeviceId,
+                                        DeviceErrors = deviceError
+                                    };
+                                    string json = JsonConvert.SerializeObject(messageObject);
+
+                                    await IoTDevice.SendDeviceToCloudMessagesAsync(json);
                                 }
                             } 
                         }
