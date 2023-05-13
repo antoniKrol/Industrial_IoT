@@ -2,11 +2,19 @@
 using Microsoft.Azure.Devices;
 using Industrial_IoT.Lib;
 using Agent.Console;
+using Microsoft.Extensions.Configuration;
 
 
+// Create a ConfigurationBuilder
+var builder = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
+// Build the configuration
+IConfiguration configuration = builder.Build();
 
-string serviceConnectionString = "HostName=Zajecia-IOT.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=y3rf6CmkGHtDggko9oHrC5Xtyf3FDjcrHVSypUwn/4w=";
+// Get the connection string from the configuration
+string serviceConnectionString = configuration["serviceConnectionString"];
 
 using var serviceClient = ServiceClient.CreateFromConnectionString(serviceConnectionString);
 
