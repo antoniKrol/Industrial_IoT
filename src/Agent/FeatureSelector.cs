@@ -36,7 +36,7 @@ namespace Agent.Console
                     break;
                 case 2:
                     {
-                       new OpcSimConnector().connectAndDisplay();
+                       new OpcSimConnector(manager).connectAndDisplay();
                     }
                     break;
                 default:

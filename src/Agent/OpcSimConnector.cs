@@ -7,12 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace Agent.Console
 {
     internal class OpcSimConnector
     {
-        private readonly string opcClientConnetionString = "opc.tcp://localhost:4840/";
+        private readonly string opcClientConnetionString = "";
+        private readonly Industrial_IoT.Lib.IoTHubManager manager;
+
+        public OpcSimConnector(Industrial_IoT.Lib.IoTHubManager manager)
+        {
+            IConfiguration configuration = AppConfiguration.GetConfiguration();
+            opcClientConnetionString = configuration["opcClientConnetionString"];
+            this.manager = manager;
+        }
 
         public async void connectAndDisplay()
         {
@@ -48,7 +57,8 @@ namespace Agent.Console
 
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
 
-                                await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
+                                //await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
+                                await manager.SendMessage(jsonMessage,deviceData.DeviceId.Replace(" ", ""));
                                 if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError",deviceError))
                                 {
 

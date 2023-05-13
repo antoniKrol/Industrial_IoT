@@ -5,15 +5,7 @@ using Agent.Console;
 using Microsoft.Extensions.Configuration;
 
 
-// Create a ConfigurationBuilder
-var builder = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-// Build the configuration
-IConfiguration configuration = builder.Build();
-
-// Get the connection string from the configuration
+IConfiguration configuration = AppConfiguration.GetConfiguration();
 string serviceConnectionString = configuration["serviceConnectionString"];
 
 using var serviceClient = ServiceClient.CreateFromConnectionString(serviceConnectionString);
