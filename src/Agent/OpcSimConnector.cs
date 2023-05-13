@@ -57,20 +57,19 @@ namespace Agent.Console
 
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
 
-                                //await IoTDevice.SendDeviceToCloudMessagesAsync(jsonMessage);
                                 await manager.SendMessage(jsonMessage,deviceData.DeviceId.Replace(" ", ""));
-                                if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError",deviceError))
-                                {
+                                //if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError",deviceError))
+                                //{
 
-                                    var messageObject = new
-                                    {
-                                        DeviceId = deviceData.DeviceId,
-                                        DeviceErrors = deviceError
-                                    };
-                                    string json = JsonConvert.SerializeObject(messageObject);
+                                //    var messageObject = new
+                                //    {
+                                //        DeviceId = deviceData.DeviceId,
+                                //        DeviceErrors = deviceError
+                                //    };
+                                //    string json = JsonConvert.SerializeObject(messageObject);
 
-                                    await IoTDevice.SendDeviceToCloudMessagesAsync(json);
-                                }
+                                //    await IoTDevice.SendDeviceToCloudMessagesAsync(json);
+                                //}
                             } 
                         }
                         if(System.Console.KeyAvailable)
