@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Azure.Devices.Shared;
 
 namespace Agent.Console
 {
@@ -56,20 +57,9 @@ namespace Agent.Console
                                 string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
+                                int productionRate = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate")).As<int>();
 
-                                await manager.SendMessage(jsonMessage,deviceData.DeviceId.Replace(" ", ""));
-                                //if(IoTDevice.CheckAndUpdateLocalDeviceTwin(deviceData.DeviceId,"DeviceError",deviceError))
-                                //{
-
-                                //    var messageObject = new
-                                //    {
-                                //        DeviceId = deviceData.DeviceId,
-                                //        DeviceErrors = deviceError
-                                //    };
-                                //    string json = JsonConvert.SerializeObject(messageObject);
-
-                                //    await IoTDevice.SendDeviceToCloudMessagesAsync(json);
-                                //}
+                                await manager.UpdateReportedDeviceTwin(deviceData.DeviceId.Replace(" ", ""), deviceError, productionRate);
                             } 
                         }
                         if(System.Console.KeyAvailable)

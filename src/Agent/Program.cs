@@ -10,7 +10,7 @@ string serviceConnectionString = configuration["serviceConnectionString"];
 
 using var serviceClient = ServiceClient.CreateFromConnectionString(serviceConnectionString);
 
-var manager = new IoTHubManager(serviceClient);
+var manager = new IoTHubManager(serviceClient,configuration);
 
 
 
