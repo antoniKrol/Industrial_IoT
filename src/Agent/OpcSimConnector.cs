@@ -70,8 +70,16 @@ namespace Agent.Console
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
                                 int productionRate = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate")).As<int>();
                                 await manager.SendDeviceToCloudMessageAsync(deviceIdS, jsonMessage);
+
                                 if(await manager.UpdateReportedDeviceTwin(deviceIdS, deviceError, productionRate)){
-                                    System.Console.WriteLine("Has changed");
+
+                                    var msg = new EventMessage
+                                    {
+                                        DeviceId = deviceIdS,
+                                        Type = "NewError",
+                                        DeviceError = deviceError
+                                    };
+                                    await manager.SendDeviceToCloudMessageAsync(deviceIdS, JsonConvert.SerializeObject(msg));
                                 }
                             } 
                         }

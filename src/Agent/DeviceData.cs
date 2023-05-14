@@ -15,4 +15,10 @@ namespace Agent.Console
         public int GoodCount { get; set; }
         public int BadCount { get; set; }
     }
+    internal class EventMessagr
+    {
+        public string DeviceId { get; set; }
+        public string Type { get; set; }
+        public int DeviceError { get;set; }
+    }
 }
