@@ -36,7 +36,36 @@ namespace Industrial_IoT.Lib
             var messageBody = new { text = textMessage };
             var message = new Microsoft.Azure.Devices.Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(messageBody)));
             message.MessageId = Guid.NewGuid().ToString();
-            await client.SendAsync(deviceId,message);
+            try
+            {
+                await client.SendAsync(deviceId, message);
+            }catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task SendDeviceToCloudMessageAsync(string deviceId, string textMessage)
+        {
+            if (!this.deviceClients.TryGetValue(deviceId, out DeviceClient deviceClient))
+            {
+                throw new Exception($"Device with id {deviceId} not found in deviceClients dictionary.");
+            }
+
+            var message = new Microsoft.Azure.Devices.Client.Message(Encoding.UTF8.GetBytes(textMessage))
+            {
+                ContentType = "application/json",
+                ContentEncoding = "utf-8"
+            };
+
+            try
+            {
+                await deviceClient.SendEventAsync(message);
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
 
         public async Task<int> ExecuteDeviceMethod(string methodName,string deviceId)
