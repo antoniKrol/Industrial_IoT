@@ -1,5 +1,4 @@
-﻿using DeviceSdkAgent.Device;
-using Microsoft.Azure.Devices;
+﻿using Microsoft.Azure.Devices;
 using Industrial_IoT.Lib;
 using Agent.Console;
 using Microsoft.Extensions.Configuration;

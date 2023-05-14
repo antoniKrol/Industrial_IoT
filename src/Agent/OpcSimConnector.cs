@@ -26,8 +26,6 @@ namespace Agent.Console
 
         public async void connectAndDisplay()
         {
-            IoTDevice IoTDevice = new IoTDevice();
-
             using (var client = new OpcClient(opcClientConnetionString))
             {
                 try
@@ -38,6 +36,17 @@ namespace Agent.Console
                     {
                         System.Console.Clear();
                         OpcNodeInfo deviceNode = client.BrowseNode("i=85");
+
+                        //Direct Method listener
+                        foreach (var device in deviceNode.Children())
+                        {
+                            if (device.Name.ToString().StartsWith("Device"))
+                            {
+                                string deviceIdS = device.Name.ToString().Replace(" ", "");
+                                manager.RegisterDirectMethodListener(deviceIdS);
+                            }
+                        }
+
                         foreach (var device in deviceNode.Children())
                         {
                             if (device.Name.ToString().StartsWith("Device"))
@@ -56,7 +65,6 @@ namespace Agent.Console
 
                                 string deviceIdS = deviceData.DeviceId.Replace(" ", "");
 
-                                manager.RegisterDirectMethodListener(deviceIdS);
                                 string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();

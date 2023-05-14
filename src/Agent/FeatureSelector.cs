@@ -12,9 +12,8 @@ namespace Agent.Console
         public static void PrintMenu()
         {
             System.Console.WriteLine(@"
-1 - C2D
-2 - Display Connected Devices (0 - to exit)
-3 - Device Twin
+1 - Start App
+2 - Invoke Direct Method
 0 - Exit
 ");
         }
@@ -25,18 +24,19 @@ namespace Agent.Console
             {
                 case 1:
                     {
-                        System.Console.WriteLine("\n Type your message (enter to confirm)");
-                        string messageText = System.Console.ReadLine() ?? string.Empty;
-
-                        System.Console.WriteLine("\n Type your device ID (enter to confirm)");
-                        string deviceId = System.Console.ReadLine() ?? string.Empty;
-
-                        await manager.SendMessage(messageText, deviceId);
+                        new OpcSimConnector(manager).connectAndDisplay();
                     }
                     break;
                 case 2:
-                    {
-                       new OpcSimConnector(manager).connectAndDisplay();
+                    {                    
+                        System.Console.WriteLine("\n Type device Id");
+                        string deviceId = System.Console.ReadLine() ?? string.Empty;
+
+                        System.Console.WriteLine("\n Type method 0 - Emergency Stop 1 - Reset Error Status");
+                       string methodName = System.Console.ReadLine() ?? string.Empty;
+
+                       OpcClientManager opc = new OpcClientManager();
+                        opc.InvokeDirectMethod(deviceId, methodName);
                     }
                     break;
                 default:

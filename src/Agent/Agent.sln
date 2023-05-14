@@ -5,11 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agent.Console", "Agent.Console.csproj", "{537FC9EF-3974-4F0E-883B-6BEFB838E676}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceSdkAgent.Device", "..\DeviceSdkAgent.Device\DeviceSdkAgent.Device.csproj", "{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Industrial_IoT.Lib", "..\Industrial_IoT.Lib\Industrial_IoT.Lib.csproj", "{3AE34F86-505C-4724-AD10-E5764BCE54BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTAzure.Func", "..\IoTAzure.Func\IoTAzure.Func.csproj", "{414F1A68-9EC7-4F3A-91A8-5F88DB18FD14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +17,10 @@ Global
 		{537FC9EF-3974-4F0E-883B-6BEFB838E676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537FC9EF-3974-4F0E-883B-6BEFB838E676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537FC9EF-3974-4F0E-883B-6BEFB838E676}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBED0986-59B4-4EE7-9EC8-C33549D1AE81}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AE34F86-505C-4724-AD10-E5764BCE54BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{414F1A68-9EC7-4F3A-91A8-5F88DB18FD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{414F1A68-9EC7-4F3A-91A8-5F88DB18FD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{414F1A68-9EC7-4F3A-91A8-5F88DB18FD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{414F1A68-9EC7-4F3A-91A8-5F88DB18FD14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

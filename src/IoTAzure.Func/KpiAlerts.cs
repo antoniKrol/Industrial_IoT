@@ -11,7 +11,7 @@ namespace IoTAzure.Func
         public void Run([ServiceBusTrigger("%ServiceBusQueuename%", Connection = "ServiceBusConnectionsString")]string myQueueItem, ILogger log)
         {
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {myQueueItem}");
-            Console.WriteLine("Aasdasd");
+            Console.WriteLine(myQueueItem);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Industrial_IoT.Lib
         }
         public void RegisterDirectMethodListener(string deviceId)
         {
-            if (!this.deviceClients.TryGetValue(deviceId, out DeviceClient deviceClient))
+            if (!this.deviceClients.TryGetValue(deviceId, out DeviceClient? deviceClient))
             {
                 throw new Exception($"Device with id {deviceId} not found in deviceClients dictionary.");
             }
