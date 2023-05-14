@@ -67,7 +67,19 @@ namespace Industrial_IoT.Lib
                 System.Console.WriteLine(ex.Message);
             }
         }
+        public void RegisterDirectMethodListener(string deviceId)
+        {
+            if (!this.deviceClients.TryGetValue(deviceId, out DeviceClient deviceClient))
+            {
+                throw new Exception($"Device with id {deviceId} not found in deviceClients dictionary.");
+            }
 
+            deviceClient.SetMethodDefaultHandlerAsync((MethodRequest request, object userContext) =>
+            {
+                System.Console.WriteLine($"Direct method invoked: {request.Name}");
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new { result = "Executed " + request.Name })), 200));
+            }, null);
+        }
         public async Task<int> ExecuteDeviceMethod(string methodName,string deviceId)
         {
             var method=new CloudToDeviceMethod(methodName);

@@ -54,12 +54,15 @@ namespace Agent.Console
                                     BadCount = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/BadCount")).As<int>(),
                                 };
 
+                                string deviceIdS = deviceData.DeviceId.Replace(" ", "");
+
+                                manager.RegisterDirectMethodListener(deviceIdS);
                                 string jsonMessage = JsonConvert.SerializeObject(deviceData);
 
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
                                 int productionRate = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate")).As<int>();
-                                await manager.SendDeviceToCloudMessageAsync(deviceData.DeviceId.Replace(" ", ""),jsonMessage);
-                                if(await manager.UpdateReportedDeviceTwin(deviceData.DeviceId.Replace(" ", ""), deviceError, productionRate)){
+                                await manager.SendDeviceToCloudMessageAsync(deviceIdS, jsonMessage);
+                                if(await manager.UpdateReportedDeviceTwin(deviceIdS, deviceError, productionRate)){
                                     System.Console.WriteLine("Has changed");
                                 }
                             } 
