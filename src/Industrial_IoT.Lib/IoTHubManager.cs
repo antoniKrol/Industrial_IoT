@@ -25,7 +25,7 @@ namespace Industrial_IoT.Lib
             foreach (var kvp in deviceConnectionStrings)
             {
                 string deviceId = kvp.Key;
-                string deviceConnectionString = kvp.Value;
+                string deviceConnectionString = kvp.Value!;
                 var deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString);
                 this.deviceClients.Add(deviceId, deviceClient);
             }
@@ -60,21 +60,34 @@ namespace Industrial_IoT.Lib
            
         }
 
-        public async Task UpdateReportedDeviceTwin(string deviceId, int deviceError, int productionRate)
+        public async Task<bool> UpdateReportedDeviceTwin(string deviceId, int deviceError, int productionRate)
         {
-            // Check if the deviceClient for the given deviceId exists in the dictionary
-            if (this.deviceClients.TryGetValue(deviceId, out var deviceClient))
+            if (!this.deviceClients.TryGetValue(deviceId, out DeviceClient deviceClient))
+            {
+                throw new Exception($"Device with id {deviceId} not found in deviceClients dictionary.");
+            }
+
+            // Retrieve the existing device twin
+            var twin = await deviceClient.GetTwinAsync();
+            var lastReportedDeviceError = twin.Properties.Reported.Contains("DeviceError") ? twin.Properties.Reported["DeviceError"] : null;
+
+            // Compare with the new deviceError
+            if (lastReportedDeviceError != null && (int)lastReportedDeviceError == deviceError)
             {
                 var twinProperties = new TwinCollection();
                 twinProperties["DeviceError"] = deviceError;
                 twinProperties["ProductionRate"] = productionRate;
-
-                // Update the reported properties of the specific device
                 await deviceClient.UpdateReportedPropertiesAsync(twinProperties);
+                return false;
             }
             else
             {
-                throw new Exception($"Device with id {deviceId} not found in deviceClients dictionary.");
+                // Update the device twin
+                var twinProperties = new TwinCollection();
+                twinProperties["DeviceError"] = deviceError;
+                twinProperties["ProductionRate"] = productionRate;
+                await deviceClient.UpdateReportedPropertiesAsync(twinProperties);
+                return true;
             }
         }
     }

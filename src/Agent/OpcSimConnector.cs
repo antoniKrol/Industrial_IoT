@@ -59,7 +59,9 @@ namespace Agent.Console
                                 int deviceError = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/DeviceError")).As<int>();
                                 int productionRate = client.ReadNode(new OpcReadNode($"ns=2;s={device.Name}/ProductionRate")).As<int>();
 
-                                await manager.UpdateReportedDeviceTwin(deviceData.DeviceId.Replace(" ", ""), deviceError, productionRate);
+                                if(await manager.UpdateReportedDeviceTwin(deviceData.DeviceId.Replace(" ", ""), deviceError, productionRate)){
+                                    System.Console.WriteLine("Has changed");
+                                }
                             } 
                         }
                         if(System.Console.KeyAvailable)
