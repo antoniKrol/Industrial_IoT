@@ -15,7 +15,7 @@ namespace Agent.Console
         public int GoodCount { get; set; }
         public int BadCount { get; set; }
     }
-    internal class EventMessagr
+    internal class EventMessage
     {
         public string DeviceId { get; set; }
         public string Type { get; set; }

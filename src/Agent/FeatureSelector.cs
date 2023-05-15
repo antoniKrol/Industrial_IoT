@@ -13,7 +13,7 @@ namespace Agent.Console
         {
             System.Console.WriteLine(@"
 1 - Start App
-2 - Invoke Direct Method
+2 - Stop or reset machine
 0 - Exit
 ");
         }
